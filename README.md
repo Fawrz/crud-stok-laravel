@@ -34,7 +34,7 @@ Aplikasi web sederhana untuk mengelola data stok barang (Create, Read, Update, D
 1.  **Clone Repository (atau Unduh ZIP):**
     ```bash
     git clone [https://github.com/Fawrz/crud-stok-laravel.git]
-    cd nama-folder-proyek-laravel-anda
+    cd crud-stok-laravel
     ```
 
 2.  **Install Dependensi PHP:**
