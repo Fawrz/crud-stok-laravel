@@ -21,7 +21,7 @@ class BarangController extends Controller
      */
     public function create()
     {
-        //
+        return view('barang.create');
     }
 
     /**
@@ -29,7 +29,28 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'kode'         => 'required|string|max:20|unique:barang,kode',
+            'nama_barang'  => 'required|string|max:255',
+            'deskripsi'    => 'nullable|string',
+            'harga_satuan' => 'required|numeric|min:0',
+            'jumlah'       => 'required|integer|min:0',
+            'foto'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+            $file = $request->file('foto');
+            $namaFileUnik = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/uploads/barang', $namaFileUnik);
+            $validatedData['foto'] = $namaFileUnik;
+        } else {
+            $validatedData['foto'] = null;
+        }
+
+        Barang::create($validatedData);
+
+        return redirect()->route('barang.index')
+                         ->with('success', 'Data barang berhasil ditambahkan!');
     }
 
     /**
