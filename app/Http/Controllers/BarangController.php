@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BarangController extends Controller
 {
@@ -64,18 +65,46 @@ class BarangController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Barang $barang)
     {
-        //
+        return view('barang.edit', compact('barang'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, Barang $barang)
+{
+    $validatedData = $request->validate([
+        'kode'         => 'required|string|max:20|unique:barang,kode,' . $barang->id,
+        'nama_barang'  => 'required|string|max:255',
+        'deskripsi'    => 'nullable|string',
+        'harga_satuan' => 'required|numeric|min:0',
+        'jumlah'       => 'required|integer|min:0',
+        'foto'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+        $file = $request->file('foto');
+        $namaFileUnik = time() . '_' . $file->getClientOriginalName();
+
+        if ($barang->foto) {
+            Storage::delete('public/uploads/barang/' . $barang->foto);
+        }
+
+        $file->storeAs('public/uploads/barang', $namaFileUnik);
+        $validatedData['foto'] = $namaFileUnik;
+    } else {
+        if (!$request->hasFile('foto')) {
+            unset($validatedData['foto']);
+        }
     }
+
+    $barang->update($validatedData);
+
+    return redirect()->route('barang.index')
+                     ->with('success', 'Data barang berhasil diperbarui!');
+}
 
     /**
      * Remove the specified resource from storage.
