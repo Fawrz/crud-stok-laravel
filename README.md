@@ -117,7 +117,6 @@ Berikut adalah beberapa tangkapan layar dari aplikasi versi Laravel:
 
 **3. Form Edit Barang:**
 ![Form Edit Laravel](screenshots/fitur_edit.png)
-*(Ganti `laravel_form_edit.png` dengan nama file screenshot Anda)*
 
 **4. Lihat Detail Barang:**
 ![Struktur Database Laravel](screenshots/fitur_detail.png)
