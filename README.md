@@ -133,7 +133,7 @@ Berikut adalah beberapa tangkapan layar dari Database phpMyAdmin:
 ![Struktur Tabel Barang](screenshots/struktur_db.png) 
 
 **2. Struktur Tabel Barang:**
-![Database Tabel Barang](screenshots/database_tabel_barang.png)
+![Database Tabel Barang](screenshots/struktur_tb.png)
 
 **3. Contoh data Tabel Barang:**
 ![Database Tabel Barang](screenshots/contoh_tb.png)
