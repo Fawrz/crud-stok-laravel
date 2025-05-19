@@ -109,8 +109,15 @@ class BarangController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+    public function destroy(Barang $barang)
+{
+    if ($barang->foto) {
+        Storage::delete('public/uploads/barang/' . $barang->foto);
     }
+
+    $barang->delete();
+
+    return redirect()->route('barang.index')
+                     ->with('success', 'Data barang berhasil dihapus!');
+}
 }
