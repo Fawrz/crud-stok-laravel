@@ -110,7 +110,7 @@ Aplikasi web sederhana untuk mengelola data stok barang (Create, Read, Update, D
 Berikut adalah beberapa tangkapan layar dari aplikasi versi Laravel:
 
 **1. Halaman Utama (Daftar Barang):**
-![Halaman Utama Laravel](screenshots/laravel_halaman_utama.png) 
+![Halaman Utama Laravel](screenshots/halaman_utama.png) 
 
 **2. Form Tambah Barang:**
 ![Form Tambah Laravel](screenshots/fitur_create.png)
