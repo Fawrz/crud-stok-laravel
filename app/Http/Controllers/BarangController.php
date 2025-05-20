@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log; // Tambahkan ini untuk logging
+use Illuminate\Support\Facades\Log;
 
 class BarangController extends Controller
 {
@@ -31,13 +31,12 @@ class BarangController extends Controller
             'foto'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $namaFileUntukDB = null; // Inisialisasi nama file untuk DB
+        $namaFileUntukDB = null;
 
         if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
             $file = $request->file('foto');
             $namaFileUnik = time() . '_' . $file->getClientOriginalName();
             
-            // Coba simpan file dan cek hasilnya
             $pathDisimpan = $file->storeAs('public/uploads/barang', $namaFileUnik);
 
             if ($pathDisimpan) {
@@ -51,7 +50,7 @@ class BarangController extends Controller
             }
         }
         
-        $validatedData['foto'] = $namaFileUntukDB; // Gunakan variabel yang sudah dicek
+        $validatedData['foto'] = $namaFileUntukDB;
 
         Barang::create($validatedData);
 
@@ -80,17 +79,15 @@ class BarangController extends Controller
             'foto'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $namaFileUntukDB = $barang->foto; // Defaultnya adalah foto lama
+        $namaFileUntukDB = $barang->foto;
 
         if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
             $file = $request->file('foto');
             $namaFileUnikBaru = time() . '_' . $file->getClientOriginalName();
 
-            // Coba simpan file baru dan cek hasilnya
             $pathDisimpanBaru = $file->storeAs('public/uploads/barang', $namaFileUnikBaru);
 
             if ($pathDisimpanBaru) {
-                // Jika file baru berhasil disimpan, hapus file lama (jika ada)
                 if ($barang->foto) {
                     Storage::delete('public/uploads/barang/' . $barang->foto);
                 }
@@ -102,10 +99,8 @@ class BarangController extends Controller
                 return back()->withInput()->with('error_upload', 'Gagal mengupload file foto baru. Silakan coba lagi.');
             }
         }
-        // Jika tidak ada file baru yang diupload, $namaFileUntukDB tetap berisi nama foto lama.
-        // Jika ada file baru dan berhasil diupload, $namaFileUntukDB sudah diupdate.
         
-        $validatedData['foto'] = $namaFileUntukDB; // Masukkan nama file foto (lama atau baru) ke data yang akan diupdate
+        $validatedData['foto'] = $namaFileUntukDB;
 
         $barang->update($validatedData);
 
